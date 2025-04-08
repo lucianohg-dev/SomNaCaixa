@@ -1,6 +1,7 @@
 const passport = require('passport');
 const  Usuario  = require('../model/user');
 const  Banda  = require('../model/banda');
+const postBand = require('../model/postband')
 const{ generateToken}= require ("../utils/auth");
 
 const path = require('path');
@@ -301,3 +302,34 @@ exports.loginBand = (req, res, next) => {
     });
   })(req, res, next);
 };
+
+exports.postbands = async (req, res) => {
+  try {
+    const { caption } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'Nenhum arquivo enviado.' });
+    }
+
+    // Pega o ID da banda logada
+    const bandId = req.user.id; // se o middleware salvar isso em req.user
+    const fileUrl = `/upload/band-post/${req.file.filename}`;
+    const fileType = req.file.mimetype;
+
+    // Cria o post no banco
+    const newPost = await  postBand.create({
+      caption,
+      file_url: fileUrl,
+      file_type: fileType,
+      band_id: bandId,
+    });
+
+    return res.status(201).json({
+      message: 'Postagem criada com sucesso!',
+      post: newPost,
+    });
+  } catch (error) {
+    console.error('Erro ao salvar o post da banda:', error);
+    res.status(500).json({ error: 'Erro ao salvar o post.' });
+  }
+}

@@ -57,4 +57,33 @@ const uploadBand = multer({
   limits: { fileSize: 2 * 1024 * 1024 }, // Limite de 2MB
 });
 
-module.exports = { uploadUser, uploadBand }; // ✅ Correção na exportação
+
+
+const storagePostsBand = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/post-band'); // Criar essa pasta antes
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+  },
+});
+
+const fileFilterPosts = (req, file, cb) => {
+  const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'audio/mpeg', 'video/mp4'];
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Tipo de arquivo não permitido. Apenas imagens, MP3 e vídeos MP4 são aceitos.'));
+  }
+};
+
+const uploadPostBand = multer({
+  storage: storagePostsBand,
+  fileFilter: fileFilterPosts,
+  limits: { fileSize: 50 * 1024 * 1024 }, // Permitir arquivos maiores (ex: 50MB para vídeos/áudios)
+});
+
+
+module.exports = { uploadUser, uploadBand, uploadPostBand }; // ✅ Correção na exportação

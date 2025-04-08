@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../service/api';
-import GlobalStyle from "../assets//styles/GlobalStyle";
+import GlobalStyle from "../assets/styles/GlobalStyle"; // corrigido caminho
 
 import {
   NavTop,
@@ -11,7 +11,6 @@ import {
   LogoutButton,
   ProfileImageContainer,
   ProfileImage,
-  ProfileImageBanda,  // Adicionado aqui
   NoProfileImage,
   FileInputLabel,
   FileInput,
@@ -24,14 +23,11 @@ import {
   UploadButton,
 } from '../assets/styles/dashboardStyles';
 
-
 const DashboardBand = () => {
   const [bandData, setBandData] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
   const [message, setMessage] = useState('');
   const [infoMessage, setInfoMessage] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
-  const [alertVisible, setAlertVisible] = useState(false);
   const [postData, setPostData] = useState({ caption: '', file: null });
   const navigate = useNavigate();
 
@@ -59,33 +55,33 @@ const DashboardBand = () => {
     }));
   };
 
-  const handlePostSubmit = async (event) => {
-    event.preventDefault();
+  const handlePostSubmit = async (e) => {
+    e.preventDefault();
+
     if (!postData.file) {
-      setInfoMessage('Selecione um arquivo para postar.');
-      setTimeout(() => setInfoMessage(''), 3000);
+      alert("Selecione um arquivo para postar.");
       return;
     }
 
     const formData = new FormData();
+    formData.append('post_file', postData.file);
     formData.append('caption', postData.caption);
-    formData.append('file', postData.file);
 
     try {
       const token = localStorage.getItem('authToken');
-      await api.post('http://localhost:5000/api/upload-band-post', formData, {
+      const response = await api.post('http://localhost:5000/api/upload-band-post', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-      setMessage('Postagem enviada com sucesso!');
-      setTimeout(() => setMessage(''), 3000);
-      setPostData({ caption: '', file: null });
+
+      console.log('Upload bem-sucedido!', response.data);
+      alert('Arquivo enviado com sucesso!');
+      setPostData({ caption: '', file: null }); // limpa o form após envio
     } catch (error) {
       console.error('Erro ao enviar a postagem:', error);
-      setMessage('Erro ao enviar a postagem.');
-      setTimeout(() => setMessage(''), 3000);
+      alert('Erro ao enviar o arquivo.');
     }
   };
 
@@ -106,7 +102,7 @@ const DashboardBand = () => {
 
     try {
       const token = localStorage.getItem('authToken');
-      await api.post('http://localhost:5000/api/upload-profile-photo', formData, {
+      await api.put('http://localhost:5000/api/uploads-profile-pictureBand', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -114,8 +110,8 @@ const DashboardBand = () => {
       });
       setMessage('Foto alterada com sucesso!');
       setTimeout(() => setMessage(''), 3000);
-      
-      // Atualiza os dados da banda para mostrar a nova foto
+
+      // Atualiza os dados
       const response = await api.get('http://localhost:5000/api/dashboardBand', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -148,7 +144,6 @@ const DashboardBand = () => {
             <NoProfileImage>Sem Foto</NoProfileImage>
           )}
 
-          {/* Input para trocar a foto */}
           <FileInputLabel>
             <FileInput type="file" onChange={(e) => setPhotoFile(e.target.files[0])} />
             Escolher Nova Foto
@@ -169,6 +164,7 @@ const DashboardBand = () => {
           />
           <FileInputLabel>
             <FileInput type="file" name="file" onChange={handlePostChange} />
+            Escolher Arquivo
           </FileInputLabel>
           <SubmitButton type="submit">Postar</SubmitButton>
         </PostForm>

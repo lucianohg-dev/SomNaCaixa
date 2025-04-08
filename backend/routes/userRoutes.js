@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/UserController');
 const authenticateToken = require('../middlewares/authMiddleware');
-const { uploadUser, uploadBand } = require('../middlewares/multerConfig');
+const { uploadUser, uploadBand,uploadPostBand } = require('../middlewares/multerConfig');
 
 // Rota de teste para a Home
 router.get('/home', (req, res) => {
@@ -24,10 +24,7 @@ router.put(
 );
 
 // Upload de imagem de perfil da banda
-router.put(
-  '/uploads-profile-pictureBand',
-  authenticateToken,
-  uploadBand.single('profile_picture'),
+router.put('/uploads-profile-pictureBand',authenticateToken,uploadBand.single('profile_picture'),
   UserController.UploadsProfilePictureBand
 );
 
@@ -35,14 +32,10 @@ router.put(
 router.get('/dashboardUser', authenticateToken, UserController.dashboardUser);
 router.get('/dashboardBand', authenticateToken, UserController.dashboardBand);
 
-// Rota para upload de postagens da banda
-router.post('/api/upload-band-post', uploadBand.single('post_file'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'Nenhum arquivo enviado.' });
-  }
 
-  const fileUrl = `/uploads/${req.file.filename}`;
-  return res.status(200).json({ message: 'Arquivo enviado com sucesso!', fileUrl });
-});
+
+
+// Rota para upload de postagens da banda
+router.post('/upload-band-post', authenticateToken,uploadPostBand.single('post_file'),UserController.postbands );
 
 module.exports = router;
