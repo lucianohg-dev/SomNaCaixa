@@ -181,3 +181,45 @@ export const TitleBanda = styled.h1`
   text-align: center;
   margin-top: 20px;
 `;
+
+export const PostsContainer = styled.div`
+  background-color: #f9f9f9;
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+`;
+
+export const PostCard = styled.div`
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  img, video {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+  audio {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  p {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #333;
+  }
+`;
+
+export const SectionTitle = styled.h3`
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #222;
+  text-align: center;
+`;

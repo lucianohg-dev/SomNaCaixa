@@ -183,7 +183,6 @@ exports.UploadsProfilePictureBand = async (req, res) => {
 
 
 
-
 // Função para exibir o dashboard do usuário
 exports.dashboardUser = async (req, res) => {
   try {
@@ -205,14 +204,19 @@ exports.dashboardUser = async (req, res) => {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
 
-    // Busca a banda (não associada ao usuário diretamente) com base no nome ou em outro critério
-    // Exemplo: pegar a banda com um nome específico, ou buscar todas as bandas, dependendo da sua necessidade
+    // Busca a banda associada ao mesmo id (caso haja associação direta via id)
     const banda = await Banda.findOne({
-      where: {id: userId}, // Ou algum outro critério
+      where: { id: userId },
       attributes: ['id', 'nome', 'profile_picture'],
+      include: [
+        {
+          model: postBand, // já está relacionado com a Banda pelo `hasMany`
+          attributes: ['id', 'caption', 'file_url'],
+        },
+      ],
     });
 
-    // Retorna o usuário com os dados da banda (se a banda existir)
+    // Retorna o usuário com os dados da banda e os posts da banda (se existirem)
     return res.status(200).json({
       user: user.toJSON(),
       banda: banda ? banda.toJSON() : null,
@@ -223,6 +227,7 @@ exports.dashboardUser = async (req, res) => {
     return res.status(500).json({ message: 'Erro no servidor.' });
   }
 };
+
 
 // Função para exibir o dashboardBand da Banda
 exports.dashboardBand = async (req, res) => {

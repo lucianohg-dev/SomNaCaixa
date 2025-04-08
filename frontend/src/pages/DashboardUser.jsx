@@ -20,7 +20,11 @@ import {
   InfoMessage,
   SuccessMessage,
   AlertMessage,
+  PostsContainer,
+  PostCard,
+  SectionTitle,
 } from '../assets/styles/dashboardStyles';
+
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
@@ -28,6 +32,7 @@ const Dashboard = () => {
   const [infoMessage, setInfoMessage] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
+  const [bandaPosts, setBandaPosts] = useState([]); // <-- Adicionado para os posts
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,12 +42,21 @@ const Dashboard = () => {
         const response = await api.get('http://localhost:5000/api/dashboardUser', {
           headers: { Authorization: `Bearer ${token}` },
         });
+  
+        console.log('Resposta da API:', response.data); // 👈 Adiciona isso
+  
         setUserData(response.data);
+    
+        if (response.data.banda && response.data.banda.Posts) {
+          console.log('Posts da banda:', response.data.banda.Posts);
+          setBandaPosts(response.data.banda.Posts);
+        }
+        
       } catch (error) {
-        console.error('Erro ao buscar os dados do usuário:', error);
+        console.error('Erro ao buscar os dados do usuário ou posts da banda:', error);
       }
     };
-
+  
     fetchData();
   }, []);
 
@@ -124,7 +138,6 @@ const Dashboard = () => {
       <GlobalStyle />
 
       <NavTop>
-      
         <SomNaCaixaLogo/>
         <SomNaCaixaTitle>SomNaCaixa</SomNaCaixaTitle>
         <DashboardContainer>
@@ -155,16 +168,12 @@ const Dashboard = () => {
             {infoMessage}
           </InfoMessage>
           <SuccessMessage>{message}</SuccessMessage>
-
-
-
         </DashboardContainer>
-        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
 
+        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
       </NavTop>
 
       {/* Seção da Banda */}
-
       {userData.banda && (
         <DashboardContainer>
           <ProfileImageContainer>
@@ -177,10 +186,43 @@ const Dashboard = () => {
               <NoProfileImage>Sem Foto</NoProfileImage>
             )}
           </ProfileImageContainer>
-          <TitleBanda >{userData.banda.nome}</TitleBanda >
+          <TitleBanda>{userData.banda.nome}</TitleBanda>
         </DashboardContainer>
       )}
+{/* Seção de Posts da Banda */}
+{bandaPosts.length > 0 && (
+  <PostsContainer>
+    <SectionTitle>Postagens da Banda</SectionTitle>
+    {bandaPosts.map((post) => (
+      <PostCard key={post.id}>
+        <p>{post.caption}</p>
 
+        {post.file_type === 'imagem' && (
+          <img
+          src={`http://localhost:5000${post.file_url}`}  // sem a `/` extra
+          alt="Postagem"
+          style={{ width: '100%', maxWidth: '400px' }}
+        />
+        
+        )}
+
+        {post.file_type === 'video' && (
+         <video controls style={{ width: '100%', maxWidth: '400px' }}>
+         <source src={`http://localhost:5000${post.file_url}`} type="video/mp4" />
+       </video>
+       
+        )}
+
+        {post.file_type === 'audio' && (
+        <audio controls>
+        <source src={`http://localhost:5000${post.file_url}`} type="audio/mpeg" />
+      </audio>
+      
+        )}
+      </PostCard>
+    ))}
+  </PostsContainer>
+)}
     </>
   );
 };
