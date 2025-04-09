@@ -318,7 +318,7 @@ exports.postbands = async (req, res) => {
 
     // Pega o ID da banda logada
     const bandId = req.user.id; // se o middleware salvar isso em req.user
-    const fileUrl = `/upload/band-post/${req.file.filename}`;
+    const fileUrl = `/uploads/post-band/${req.file.filename}`;
     const fileType = req.file.mimetype;
 
     // Cria o post no banco

@@ -36,6 +36,6 @@ router.get('/dashboardBand', authenticateToken, UserController.dashboardBand);
 
 
 // Rota para upload de postagens da banda
-router.post('/upload-band-post', authenticateToken,uploadPostBand.single('post_file'),UserController.postbands );
+router.post('/uploads-band-post', authenticateToken,uploadPostBand.single('post_file'),UserController.postbands );
 
 module.exports = router;
