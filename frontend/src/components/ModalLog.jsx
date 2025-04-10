@@ -19,13 +19,29 @@ export default function ModalLog({ isOpen, onClose }) {
     try {
       const route = userType === "user" ? "/api/loginUsers" : "/api/loginBands";
       const response = await api.post(`http://localhost:5000${route}`, { email, password }, { withCredentials: true });
-
       if (response.status === 200 && response.data.token) {
-        localStorage.setItem("authToken", response.data.token);
-        navigate(userType === "banda" ? "/dashboardBand" : "/dashboardUser");
-        handleClose();
-      } else {
-        setError("Erro inesperado ao realizar login. Tente novamente.");
+        try {
+          localStorage.setItem("authToken", response.data.token);
+      
+          // Pequeno delay para garantir persistência
+          setTimeout(() => {
+            try {
+              const savedToken = localStorage.getItem("authToken");
+              if (savedToken) {
+                navigate(userType === "banda" ? "/dashboardBand" : "/dashboardUser");
+                handleClose();
+              } else {
+                setError("Erro ao salvar token de autenticação. Tente novamente.");
+              }
+            } catch (error) {
+              console.error("Erro ao recuperar o token do localStorage:", error);
+              setError("Erro ao processar o login.");
+            }
+          }, 100);
+        } catch (error) {
+          console.error("Erro ao salvar o token no localStorage:", error);
+          setError("Erro ao salvar informações de login.");
+        }
       }
     } catch (err) {
       setError(err.response?.data?.message || "Credenciais inválidas. Verifique e tente novamente.");

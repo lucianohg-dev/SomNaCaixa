@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Home from "../pages/Home"; // Página Home
 import DashboardUser from "../pages/DashboardUser"; // Certifique-se de ter o componente Dashboard
 import DashboardBand from "../pages/DashboardBand"; // Certifique-se de ter o componente Dashboard
+import PrivateRoute from "../components/PrivateRoute"; // ajuste o caminho conforme a estrutura do seu projeto
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Controle do modal de cadastro-user
@@ -79,11 +85,9 @@ function App() {
         <Route
           path="/dashboardUser"
           element={
-            isAuthenticated ? (
-              <DashboardUser /> // Renderiza o DashboardUser se o usuário estiver autenticado
-            ) : (
-              <Navigate to="/home" /> // Redireciona para a página de login se não estiver autenticado
-            )
+            <PrivateRoute>
+              <DashboardUser />
+            </PrivateRoute>
           }
         />
 
@@ -91,11 +95,9 @@ function App() {
         <Route
           path="/dashboardBand"
           element={
-            isAuthenticated ? (
-              <DashboardBand /> // Renderiza o DashboardBand se a banda estiver autenticada
-            ) : (
-              <Navigate to="/home" /> // Redireciona para a página de login se não estiver autenticado
-            )
+            <PrivateRoute>
+              <DashboardBand />
+            </PrivateRoute>
           }
         />
       </Routes>

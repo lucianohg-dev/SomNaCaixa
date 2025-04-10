@@ -69,7 +69,7 @@ const DashboardBand = () => {
 
     try {
       const token = localStorage.getItem('authToken');
-      const response = await api.post('http://localhost:5000/api/upload-band-post', formData, {
+      const response = await api.post('http://localhost:5000/api/uploads-band-post', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

@@ -211,7 +211,7 @@ exports.dashboardUser = async (req, res) => {
       include: [
         {
           model: postBand, // já está relacionado com a Banda pelo `hasMany`
-          attributes: ['id', 'caption', 'file_url'],
+          attributes: ['id', 'caption', 'file_url', 'file_type'],
         },
       ],
     });
@@ -316,13 +316,17 @@ exports.postbands = async (req, res) => {
       return res.status(400).json({ error: 'Nenhum arquivo enviado.' });
     }
 
-    // Pega o ID da banda logada
-    const bandId = req.user.id; // se o middleware salvar isso em req.user
+    // Verifica se o usuário está logado
+    const bandId = req.user?.id;
+    if (!bandId) {
+      return res.status(401).json({ error: 'Usuário não autenticado.' });
+    }
+
     const fileUrl = `/uploads/post-band/${req.file.filename}`;
     const fileType = req.file.mimetype;
 
-    // Cria o post no banco
-    const newPost = await  postBand.create({
+    // Salva no banco
+    const newPost = await postBand.create({
       caption,
       file_url: fileUrl,
       file_type: fileType,
@@ -337,4 +341,5 @@ exports.postbands = async (req, res) => {
     console.error('Erro ao salvar o post da banda:', error);
     res.status(500).json({ error: 'Erro ao salvar o post.' });
   }
-}
+};
+
