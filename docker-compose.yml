@@ -5,7 +5,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000" # Porta para o backend
+      - "5000:3000"  # Porta externa 5000 -> interna 3000 do backend
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -20,7 +20,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000" # Porta para o frontend
+      - "3000:3000"  # Agora essa porta fica apenas para o frontend
     volumes:
       - ./frontend:/app
       - /app/node_modules

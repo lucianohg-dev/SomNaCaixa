@@ -7,6 +7,8 @@ import {
   NavTop,
   SomNaCaixaTitle,
   SomNaCaixaLogo,
+  FotoNomeProfile,
+  ButtonsProfileUser,
   DashboardContainer,
   Title,
   TitleBanda,
@@ -23,7 +25,7 @@ import {
   PostsContainer,
   PostCard,
   SectionTitle,
-} from "../assets/styles/dashboardStyles";
+} from "../assets/styles/DashUserStyles.js";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -146,14 +148,12 @@ const Dashboard = () => {
       {/* TOPO COM LOGO E USUÁRIO */}
       <NavTop>
         <SomNaCaixaLogo />
+
         <SomNaCaixaTitle>SomNaCaixa</SomNaCaixaTitle>
-  
       
-  
-        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
-      </NavTop>
-    <DashboardContainer>
-          <ProfileImageContainer>
+        
+    <FotoNomeProfile>
+     
             {userData.user.profile_picture ? (
               <ProfileImage
                 src={`http://localhost:5000/${userData.user.profile_picture}?t=${Date.now()}`}
@@ -162,14 +162,20 @@ const Dashboard = () => {
             ) : (
               <NoProfileImage>Sem Foto</NoProfileImage>
             )}
-          </ProfileImageContainer>
-  
-          <Title>{userData.user.nome}</Title>
-  
-          <FileInputLabel onMouseEnter={showAlert}>
+          
+    
+     <Title>{userData.user.nome}</Title>
+
+<ButtonsProfileUser >
+          <FileInputLabel onMouseEnter={showAlert}>Change Photo
             <FileInput type="file" onChange={handleFileChange} />
           </FileInputLabel>
   
+
+          <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
+
+          </ButtonsProfileUser>
+     
           {alertVisible && (
             <AlertMessage>
               Tipo de imagem JPG, JPEG ou PNG (máximo 2 MB)
@@ -181,7 +187,10 @@ const Dashboard = () => {
           </InfoMessage>
   
           <SuccessMessage>{message}</SuccessMessage>
-        </DashboardContainer>
+        </FotoNomeProfile>
+        
+      </NavTop>
+
       {/* INFORMAÇÕES DA BANDA */}
       {userData.banda && (
         <DashboardContainer>

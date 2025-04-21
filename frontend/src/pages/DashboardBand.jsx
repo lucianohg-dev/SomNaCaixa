@@ -21,7 +21,7 @@ import {
   PostInput,
   SubmitButton,
   UploadButton,
-} from '../assets/styles/dashboardStyles';
+} from '../assets/styles/DashBandStyles';
 
 const DashboardBand = () => {
   const [bandData, setBandData] = useState(null);

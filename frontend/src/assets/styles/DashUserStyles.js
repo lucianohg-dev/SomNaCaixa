@@ -2,36 +2,20 @@ import styled from 'styled-components';
 
 export const NavTop = styled.div`
   width: 100%;
-  height: 60px;
+  height: 70px;
   background-color: rgb(192, 69, 20);
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: space-between;
   padding: 0 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-`;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  `
 
-export const SomNaCaixaTitle = styled.h1`
-  font-family: "Cinzel", serif;
-  font-size: 24px;
-  color: white;
-`;
-
-export const LogoutButton = styled.button`
-  background-color: transparent;
-  color: white;
-  border: 2px solid white;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.3s;
-
-  &:hover {
-    background-color: white;
-    color: rgb(192, 69, 20);
-  }
-`;
+export const FotoNomeProfile = styled.div`
+   display: flex;
+  align-items: center;
+  gap: 10px;
+`
 
 export const DashboardContainer = styled.div`
   max-width: 800px;
@@ -43,6 +27,15 @@ export const DashboardContainer = styled.div`
   text-align: center;
 `;
 
+export const SomNaCaixaTitle = styled.h1`
+position: absolute;
+  font-family: "Cinzel", serif;
+  font-size: 24px;
+  color: white;
+  left:20px;
+`;
+
+
 export const ProfileImageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,38 +44,51 @@ export const ProfileImageContainer = styled.div`
 `;
 
 export const ProfileImage = styled.img`
-  width: 120px;
-  height: 120px;
+ width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid rgb(192, 69, 20);
   
 `;
 
 export const NoProfileImage = styled.div`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: #ccc;
-  display: flex;
+    display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  color: #555;
+  gap: 10px;
 `;
 
-export const FileInputLabel = styled.label`
-  background-color: rgb(192, 69, 20);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
+export const ButtonsProfileUser = styled.div`
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  display: block;
-  margin-top: 10px;
-  transition: 0.3s;
+  transition: 0.3s ease;
+` 
 
-  &:hover {
-    background-color: red;
+export const FileInputLabel = styled.label`
+ padding: 6px 10px;
+  font-size: 0.8rem;
+  background-color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+    &:hover {
+   background-color: #0056b3;
+  }
+`;
+
+export const LogoutButton = styled.button`
+ padding: 6px 10px;
+  font-size: 0.8rem;
+  background-color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+    &:hover {
+   background-color: #0056b3;
   }
 `;
 
@@ -149,7 +155,9 @@ export const SuccessMessage = styled.p`
 `;
 
 export const AlertMessage = styled.p`
-  color: red;
+position: absolute;
+margin-top: 45px;
+  color:  white;
   font-size: 14px;
   text-align: center;
   font-weight: bold;
@@ -171,10 +179,9 @@ export const SomNaCaixaLogo = styled.img`
   margin-bottom: 20px;
 `;
 export const Title = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 20px;
+ font-size: 1rem;
+  color: #333;
+  margin-right: 10px;
 `;
 export const TitleBanda = styled.h1`
   font-size: 24px;
