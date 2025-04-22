@@ -2,17 +2,16 @@ import styled from 'styled-components';
 
 export const NavTop = styled.div`
   width: 100%;
-  height: 70px;
-  background-color: rgb(192, 69, 20);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 85px;
+  background-color: rgb(59, 59, 59);
+  box-shadow: 0 2px 4px rgba(36, 24, 24, 0.1);
   `
 
 export const FotoNomeProfile = styled.div`
-   display: flex;
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
   align-items: center;
   gap: 10px;
 `
@@ -28,11 +27,12 @@ export const DashboardContainer = styled.div`
 `;
 
 export const SomNaCaixaTitle = styled.h1`
-position: absolute;
+
   font-family: "Cinzel", serif;
-  font-size: 24px;
+  font-size: 40px;
   color: white;
-  left:20px;
+
+  text-align: center;
 `;
 
 
@@ -41,54 +41,61 @@ export const ProfileImageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+
 `;
 
 export const ProfileImage = styled.img`
- width: 60px;
-  height: 60px;
+
+  width: 67px;
+  height: 67px;
   border-radius: 50%;
   object-fit: cover;
-  
+  border: 2px solid #333;
+  box-shadow: 0px 4px 8px rgb(134, 134, 134);
+ 
 `;
 
 export const NoProfileImage = styled.div`
-    display: flex;
+
+  display: flex;
   align-items: center;
   gap: 10px;
+
 `;
 
 export const ButtonsProfileUser = styled.div`
-  padding: 6px 10px;
-  font-size: 0.8rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 ` 
 
 export const FileInputLabel = styled.label`
  padding: 6px 10px;
   font-size: 0.8rem;
-  background-color: white;
+  background-color:white;
+   color:black;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s ease;
     &:hover {
-   background-color: #0056b3;
+   background-color: rgb(99, 99, 99);
+   color:white;
   }
 `;
 
 export const LogoutButton = styled.button`
- padding: 6px 10px;
+ padding: 7px 10px;
   font-size: 0.8rem;
-  background-color: white;
+  background-color: rgb(99, 99, 99);
+   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s ease;
     &:hover {
-   background-color: #0056b3;
+   background-color:white;
+   color:black;
   }
 `;
 
@@ -156,9 +163,10 @@ export const SuccessMessage = styled.p`
 
 export const AlertMessage = styled.p`
 position: absolute;
-margin-top: 45px;
-  color:  white;
-  font-size: 14px;
+margin-top: 50px;
+right:10px;
+  color:white;
+  font-size: 11px;
   text-align: center;
   font-weight: bold;
 `;
@@ -179,8 +187,13 @@ export const SomNaCaixaLogo = styled.img`
   margin-bottom: 20px;
 `;
 export const Title = styled.h1`
- font-size: 1rem;
-  color: #333;
+  font-family: "Yellowtail", cursive;
+  font-weight: 450;
+  font-style: normal;
+
+ font-size: 2.1rem;
+  color:rgb(255, 255, 255);
+
   margin-right: 10px;
 `;
 export const TitleBanda = styled.h1`
