@@ -1,20 +1,25 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const NavTop = styled.div`
   width: 100%;
-  height: 85px;
-  background-color: rgb(59, 59, 59);
-  box-shadow: 0 2px 4px rgba(36, 24, 24, 0.1);
-  `
+  height: 80px;
+  display: flex;
+  align-items: center; /* centraliza na vertical */
+  justify-content: center; /* centraliza na horizontal */
+  background: #1e1e1e;
+`;
 
 export const FotoNomeProfile = styled.div`
-  position:absolute;
-  top: 10px;
-  right: 10px;
+  position: absolute;
+  width: 360px;
+  height: 80px;
+  padding: 20px;
+  right: 0px;
   display: flex;
   align-items: center;
-  gap: 10px;
-`
+  gap: 8px;
+  background:transparent;
+`;
 
 export const DashboardContainer = styled.div`
   max-width: 800px;
@@ -27,75 +32,69 @@ export const DashboardContainer = styled.div`
 `;
 
 export const SomNaCaixaTitle = styled.h1`
-
+  position: absolute;
   font-family: "Cinzel", serif;
-  font-size: 40px;
-  color: white;
-
-  text-align: center;
+  font-size: 43px;
+  color: #f2f2f2;
 `;
-
 
 export const ProfileImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-
 `;
 
 export const ProfileImage = styled.img`
-
-  width: 67px;
-  height: 67px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #333;
   box-shadow: 0px 4px 8px rgb(134, 134, 134);
- 
 `;
 
 export const NoProfileImage = styled.div`
-
   display: flex;
   align-items: center;
   gap: 10px;
-
 `;
 
 export const ButtonsProfileUser = styled.div`
+  position: absolute;
   display: flex;
   align-items: center;
+  right: 5px;
   gap: 10px;
-` 
+`;
 
 export const FileInputLabel = styled.label`
- padding: 6px 10px;
+  padding: 6px 10px;
   font-size: 0.8rem;
-  background-color:white;
-   color:black;
-  border: none;
+  background-color: rgb(22, 109, 136);
+  color: #fff;
+  border: solid 1px #d1d1d1;
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s ease;
-    &:hover {
-   background-color: rgb(99, 99, 99);
-   color:white;
+  &:hover {
+    background-color: rgb(18, 86, 107);
+    color: white;
   }
 `;
 
 export const LogoutButton = styled.button`
- padding: 7px 10px;
+  padding: 6px 10px;
   font-size: 0.8rem;
-  background-color: rgb(99, 99, 99);
-   color: white;
-  border: none;
+  background-color: #ff3c38;
+  color: #fff;
+  border: solid 1px #d1d1d1;
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s ease;
-    &:hover {
-   background-color:white;
-   color:black;
+  &:hover {
+    background-color: rgb(167, 15, 12);
+    color: #fff;
   }
 `;
 
@@ -156,21 +155,24 @@ export const InfoMessage = styled.p`
 `;
 
 export const SuccessMessage = styled.p`
+  position: absolute;
+  margin-top: 50px;
+  right: 5px;
   color: green;
-  font-size: 14px;
-  text-align: center;
-`;
-
-export const AlertMessage = styled.p`
-position: absolute;
-margin-top: 50px;
-right:10px;
-  color:white;
-  font-size: 11px;
+  font-size: 10.5px;
   text-align: center;
   font-weight: bold;
 `;
 
+export const AlertMessage = styled.p`
+  position: absolute;
+  margin-top: 50px;
+  right: 5px;
+  color: white;
+  font-size: 10.5px;
+  text-align: center;
+  font-weight: bold;
+`;
 
 export const ProfileImageBanda = styled.img`
   width: 150px;
@@ -187,12 +189,13 @@ export const SomNaCaixaLogo = styled.img`
   margin-bottom: 20px;
 `;
 export const Title = styled.h1`
-  font-family: "Yellowtail", cursive;
-  font-weight: 450;
+  font-family: "Montserrat", sans-serif;
+
+  font-weight: 500;
   font-style: normal;
 
- font-size: 2.1rem;
-  color:rgb(255, 255, 255);
+  font-size: 1.3rem;
+  color: #f2f2f2;
 
   margin-right: 10px;
 `;
@@ -213,13 +216,15 @@ export const PostsContainer = styled.div`
 `;
 
 export const PostCard = styled.div`
-  margin-bottom: 30px;
-  padding: 20px;
-  border-radius: 10px;
   background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  border: 1px solid #d1d1d1;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
 
-  img, video {
+  img,
+  video {
     width: 100%;
     max-width: 100%;
     border-radius: 8px;

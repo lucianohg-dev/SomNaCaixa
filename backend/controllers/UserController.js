@@ -207,7 +207,7 @@ exports.dashboardUser = async (req, res) => {
     // Busca a banda associada ao mesmo id (caso haja associação direta via id)
     const banda = await Banda.findOne({
       where: { id: userId },
-      attributes: ['id', 'nome', 'profile_picture'],
+      attributes: ['nome', 'profile_picture'],
       include: [
         {
           model: postBand, // já está relacionado com a Banda pelo `hasMany`
