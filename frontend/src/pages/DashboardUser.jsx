@@ -1,3 +1,4 @@
+// IMPORTAÇÕES DE BIBLIOTECAS E COMPONENTES
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../service/api";
@@ -23,46 +24,42 @@ import {
 } from "../assets/styles/DashUserStyles.js";
 
 const Dashboard = () => {
-  const [userData, setUserData] = useState(null);
-
-  const [message, setMessage] = useState("");
-  const [infoMessage, setInfoMessage] = useState("");
-  const [isUploading, setIsUploading] = useState(false);
-  const [alertVisible, setAlertVisible] = useState(false);
-  const [bandaPosts, setBandaPosts] = useState([]); // <-- Adicionado para os posts
+  // ESTADOS GLOBAIS DO COMPONENTE
+  const [userData, setUserData] = useState(null); // Dados do usuário logado
+  const [message, setMessage] = useState(""); // Mensagem de sucesso
+  const [infoMessage, setInfoMessage] = useState(""); // Mensagem de validação
+  const [isUploading, setIsUploading] = useState(false); // Estado de upload da imagem
+  const [alertVisible, setAlertVisible] = useState(false); // Alerta sobre regras de imagem
+  const [bandaPosts, setBandaPosts] = useState([]); // Lista de postagens da banda
 
   const navigate = useNavigate();
 
+  // FUNÇÃO PARA BUSCAR DADOS DO USUÁRIO/BANDA AO MONTAR O COMPONENTE
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const response = await api.get(
-          "http://localhost:5000/api/dashboardUser",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await api.get("http://localhost:5000/api/dashboardUser", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-        console.log("Resposta da API:", response.data); // 👈 Adiciona isso
-
+        console.log("Resposta da API:", response.data);
         setUserData(response.data);
 
+        // Se for uma banda e tiver posts
         if (response.data.banda && response.data.banda.Posts) {
           console.log("Posts da banda:", response.data.banda.Posts);
           setBandaPosts(response.data.banda.Posts);
         }
       } catch (error) {
-        console.error(
-          "Erro ao buscar os dados do usuário ou posts da banda:",
-          error
-        );
+        console.error("Erro ao buscar os dados do usuário ou posts da banda:", error);
       }
     };
 
     fetchData();
   }, []);
 
+  // FUNÇÃO PARA VERIFICAR TIPO E TAMANHO DA IMAGEM E ENVIAR PARA UPLOAD
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -71,26 +68,24 @@ const Dashboard = () => {
 
       if (!validTypes.includes(file.type)) {
         setInfoMessage("Apenas arquivos JPG, JPEG e PNG são permitidos.");
-        setPhotoFile(null);
         setTimeout(() => setInfoMessage(""), 3000);
         return;
       }
 
       if (file.size > maxSize) {
         setInfoMessage("O tamanho do arquivo não pode exceder 2 MB.");
-        setPhotoFile(null);
         setTimeout(() => setInfoMessage(""), 3000);
         return;
       }
 
       setInfoMessage("Arquivo válido. Iniciando upload...");
       setTimeout(() => setInfoMessage(""), 3000);
-      setPhotoFile(file);
 
       uploadPhoto(file);
     }
   };
 
+  // FUNÇÃO RESPONSÁVEL PELO UPLOAD DA FOTO DE PERFIL DO USUÁRIO
   const uploadPhoto = async (file) => {
     setIsUploading(true);
     const formData = new FormData();
@@ -111,6 +106,8 @@ const Dashboard = () => {
 
       setMessage("Foto de perfil atualizada com sucesso!");
       setTimeout(() => setMessage(""), 3000);
+
+      // Atualiza os dados do usuário com a nova imagem
       setUserData((prev) => ({
         ...prev,
         user: { ...prev.user, profile_picture: response.data.photoUrl },
@@ -124,34 +121,34 @@ const Dashboard = () => {
     }
   };
 
+  // FUNÇÃO DE LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/home");
   };
 
+  // MOSTRA ALERTA TEMPORÁRIO AO PASSAR O MOUSE SOBRE "CHANGE PHOTO"
   const showAlert = () => {
     setAlertVisible(true);
     setTimeout(() => setAlertVisible(false), 3000);
   };
 
+  // LOADING CASO OS DADOS DO USUÁRIO AINDA NÃO TENHAM SIDO CARREGADOS
   if (!userData) return <p>Carregando...</p>;
 
   return (
     <>
       <GlobalStyle />
 
-      {/* TOPO COM LOGO E USUÁRIO */}
+      {/* BARRA SUPERIOR COM LOGO, NOME E BOTÕES */}
       <NavTop>
         <SomNaCaixaLogo />
-
         <SomNaCaixaTitle>SomNaCaixa</SomNaCaixaTitle>
 
         <FotoNomeProfile>
           {userData.user.profile_picture ? (
             <ProfileImage
-              src={`http://localhost:5000/${
-                userData.user.profile_picture
-              }?t=${Date.now()}`}
+              src={`http://localhost:5000/${userData.user.profile_picture}?t=${Date.now()}`}
               alt="Foto de perfil do usuário"
             />
           ) : (
@@ -183,33 +180,23 @@ const Dashboard = () => {
         </FotoNomeProfile>
       </NavTop>
 
-      {/*CODIGO TRAZ INFORMAÇÕES DA BANDA ABAIXO DO </navTop>
-      {userData.banda && (
-        <DashboardContainer>
-          <ProfileImageContainer>
-            {userData.banda.profile_picture ? (
-              <ProfileImageBanda
-                src={`http://localhost:5000/${userData.banda.profile_picture}?t=${Date.now()}`}
-                alt="Foto da banda"
-              />
-            ) : (
-              <NoProfileImage>Sem Foto</NoProfileImage>
-            )}
-          </ProfileImageContainer>
-  
-          <TitleBanda>{userData.banda.nome}</TitleBanda>
-        </DashboardContainer>
-      )} */}
-
-
-      {/* POSTS DA BANDA */}
+      {/* POSTS DA BANDA EXIBIDOS NA DASHBOARD */}
       {bandaPosts.length > 0 && (
-  <PostsContainer>
-    <SectionTitle>Postagens da Banda</SectionTitle>
-    {bandaPosts.map((post) => (
-      <PostItem key={post.id} post={post} banda={userData.banda} />
-    ))}
-  </PostsContainer>
+  <div style={{ width: "100%", padding: "20px" }}>
+    <h2 style={{ fontSize: "1.5rem", marginBottom: "10px", color: "#ffffff" }}>
+      Postagens de {userData.banda?.nome}
+    </h2>
+
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+      gap: "20px",
+    }}>
+      {bandaPosts.map((post) => (
+        <PostItem key={post.id} post={post} banda={userData.banda} />
+      ))}
+    </div>
+  </div>
 )}
 
     </>
